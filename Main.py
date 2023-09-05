@@ -1,5 +1,6 @@
 import sqlite3
 
+
 # Create a database connection
 conn = sqlite3.connect('clinic.db')
 cursor = conn.cursor()
