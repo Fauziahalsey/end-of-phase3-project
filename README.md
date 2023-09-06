@@ -1,7 +1,5 @@
-Certainly, here's a basic README template for your patient management project:
+Certainly, here's a basic README template for a patient management project:
 
-markdown
-Copy code
 # Patient Management CLI
 
 The Patient Management CLI is a command-line application that allows you to manage patient records in a simple database. You can add patient names and phone numbers to keep track of your patients.
@@ -13,7 +11,7 @@ The Patient Management CLI is a command-line application that allows you to mana
 
 ## Requirements
 
-- Python 3.x
+- Python 3. x
 - SQLite3
 
 ## Getting Started
@@ -23,7 +21,7 @@ The Patient Management CLI is a command-line application that allows you to mana
 ```bash
 git clone https://github.com/yourusername/patient-management-cli.git
 cd patient-management-cli
-Install the required Python libraries (sqlite3 is part of the Python standard library, so no additional installation is needed).
+Install the required Python libraries (SQLite3 is part of the Python standard library, so no additional installation is needed).
 
 Run the CLI application.
 
@@ -37,9 +35,10 @@ Enter the patient's name and phone number to add a new patient record.
 Option 2: Exit
 Quit the application.
 Database
-The application uses SQLite to store patient records. The database file is clinic.db.
+The application uses SQLite to store patient records. The database file is a clinic. db.
 
-Contributing
+ Contributing
+
 If you have suggestions or found a bug, please open an issue or submit a pull request.
 
 License
@@ -48,7 +47,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 Acknowledgments
 SQLite - SQLite is a C-language library that implements a small, fast, self-contained, high-reliability, full-featured, SQL database engine.
 Author
-Your Name
+Fauzia Omala
+Linkedin:https://www.linkedin.com/feed/
+Twitter:@Fauziahalsey
 GitHub: Fauziahalsey
-javascript
 
