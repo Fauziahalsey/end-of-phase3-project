@@ -13,6 +13,28 @@ cursor.execute('''
         Phone_no INTEGER
     )
 ''')
+
+# Create the Doctors table if it doesn't exist
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Doctors (
+        Doctor_id INTEGER PRIMARY KEY,
+        Name TEXT,
+        Phone_no INTEGER
+    )
+''')
+
+# Create the Appointments table if it doesn't exist
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Appointments (
+        Appointment_id INTEGER PRIMARY KEY,
+        Doctor_id INTEGER,
+        Patient_id INTEGER,
+        Date DATE,
+        Time TIME,
+        FOREIGN KEY (Doctor_id) REFERENCES Doctors (Doctor_id),
+        FOREIGN KEY (Patient_id) REFERENCES Patients (Patients_id)
+    )
+''')
 conn.commit()
 
 def add_patient():
@@ -24,10 +46,28 @@ def add_patient():
     conn.commit()
     print(f"Patient '{name}' with phone number '{phone_no}' added successfully.")
 
-# Define doctor information
-doctor_name = "Dr. Smith"
-doctor_phone = "0759871476"
-doctor_id = "12345"
+def add_doctor():
+    name = input("Enter the doctor's name: ")
+    phone_no = input("Enter the doctor's phone number: ")
+
+    # Insert doctor information into the database
+    cursor.execute('INSERT INTO Doctors (Name, Phone_no) VALUES (?, ?)', (name, phone_no))
+    conn.commit()
+    print(f"Doctor '{name}' with phone number '{phone_no}' added successfully.")
+
+def schedule_appointment():
+    doctor_id = input("Enter the doctor's ID: ")
+    patient_id = input("Enter the patient's ID: ")
+    date = input("Enter the appointment date (YYYY-MM-DD): ")
+    time = input("Enter the appointment time (HH:MM AM/PM): ")
+
+    # Insert appointment information into the database
+    cursor.execute('''
+        INSERT INTO Appointments (Doctor_id, Patient_id, Date, Time)
+        VALUES (?, ?, ?, ?)
+    ''', (doctor_id, patient_id, date, time))
+    conn.commit()
+    print("Appointment scheduled successfully.")
 
 def main_menu():
     while True:
@@ -62,14 +102,21 @@ def read_educational_content():
     webbrowser.open(educational_link)
 
 def show_appointment_scheduling_menu():
-    # Display doctor's information
-    print("Appointment Scheduling")
-    print("Doctor's Name:", doctor_name)
-    print("Doctor's Phone Number:", doctor_phone)
-    print("Doctor's ID:", doctor_id)
+    while True:
+        print("=======================")
+        print("Appointment Scheduling")
+        print("=======================")
+        print("1. Schedule Appointment")
+        print("2. Back to Main Menu")
 
-    # Implement the Appointment Scheduling menu here
-    pass
+        choice = input("Please select an option (1-2): ")
+
+        if choice == '1':
+            schedule_appointment()
+        elif choice == '2':
+            break
+        else:
+            print("Invalid choice. Please select a valid option.")
 
 def show_offline_capability_info():
     # Display information about offline capability
@@ -84,13 +131,16 @@ def manage_patients_menu():
         print("Patient Management")
         print("=======================")
         print("1. Add Patient")
-        print("2. Back to Main Menu")
+        print("2. Add Doctor")
+        print("3. Back to Main Menu")
 
-        choice = input("Please select an option (1-2): ")
+        choice = input("Please select an option (1-3): ")
 
         if choice == '1':
             add_patient()
         elif choice == '2':
+            add_doctor()
+        elif choice == '3':
             break
         else:
             print("Invalid choice. Please select a valid option.")
