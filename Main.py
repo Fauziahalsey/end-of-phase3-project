@@ -1,5 +1,5 @@
 import sqlite3
-import webbrowser  # Import the webbrowser module
+import webbrowser
 
 # Create a database connection
 conn = sqlite3.connect('clinic.db')
@@ -35,13 +35,25 @@ cursor.execute('''
         FOREIGN KEY (Patient_id) REFERENCES Patients (Patients_id)
     )
 ''')
+
+# PatientsDoctors table for the many-to-many relationship
+cursor.execute('''
+    CREATE TABLE IF NOT EXISTS PatientsDoctors (
+        Patient_id INTEGER,
+        Doctor_id INTEGER,
+        PRIMARY KEY (Patient_id, Doctor_id),
+        FOREIGN KEY (Patient_id) REFERENCES Patients (Patients_id),
+        FOREIGN KEY (Doctor_id) REFERENCES Doctors (Doctor_id)
+    )
+''')
+
 conn.commit()
 
 def add_patient():
     name = input("Enter the patient's name: ")
     phone_no = input("Enter the patient's phone number: ")
 
-    # Insert patient information into the database
+    # Inserting patient information into the database
     cursor.execute('INSERT INTO Patients (Name, Phone_no) VALUES (?, ?)', (name, phone_no))
     conn.commit()
     print(f"Patient '{name}' with phone number '{phone_no}' added successfully.")
@@ -50,7 +62,7 @@ def add_doctor():
     name = input("Enter the doctor's name: ")
     phone_no = input("Enter the doctor's phone number: ")
 
-    # Insert doctor information into the database
+    # Inserting doctor information into the database
     cursor.execute('INSERT INTO Doctors (Name, Phone_no) VALUES (?, ?)', (name, phone_no))
     conn.commit()
     print(f"Doctor '{name}' with phone number '{phone_no}' added successfully.")
@@ -61,11 +73,15 @@ def schedule_appointment():
     date = input("Enter the appointment date (YYYY-MM-DD): ")
     time = input("Enter the appointment time (HH:MM AM/PM): ")
 
-    # Insert appointment information into the database
+    # Inserting appointment information into the database
     cursor.execute('''
         INSERT INTO Appointments (Doctor_id, Patient_id, Date, Time)
         VALUES (?, ?, ?, ?)
     ''', (doctor_id, patient_id, date, time))
+    
+    # Inserting association into PatientsDoctors table
+    cursor.execute('INSERT INTO PatientsDoctors (Patient_id, Doctor_id) VALUES (?, ?)', (patient_id, doctor_id))
+    
     conn.commit()
     print("Appointment scheduled successfully.")
 
@@ -91,7 +107,7 @@ def main_menu():
         elif choice == '4':
             manage_patients_menu()
         elif choice == '5':
-            print("Goodbye!")
+            print("Thank you for contacting mama care!")
             break
         else:
             print("Invalid choice. Please select a valid option.")
@@ -119,8 +135,8 @@ def show_appointment_scheduling_menu():
             print("Invalid choice. Please select a valid option.")
 
 def show_offline_capability_info():
-    # Display information about offline capability
-    print("Welcome to the Offline Capability section.")
+    # Displaying information about offline capability
+    print("Welcome to Offline  mama care Capability section.")
     print("In this section, you can access offline resources.")
     print("You can read books, articles, and watch videos even when you're not connected to the internet.")
     input("Press Enter to go back to the main menu...")
