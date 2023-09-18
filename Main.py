@@ -58,6 +58,7 @@ def add_patient():
     conn.commit()
     print(f"Patient '{name}' with phone number '{phone_no}' added successfully.")
 
+
 def add_doctor():
     name = input("Enter the doctor's name: ")
     phone_no = input("Enter the doctor's phone number: ")
